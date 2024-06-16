@@ -1,0 +1,239 @@
+<div
+    class="h-full w-full overflow-scroll container-scroll py-4 pr-10"
+    *ngIf="loading"
+>
+    <ng-container *ngIf="website.navigation; else noNav">
+        <div
+            class="h-auto w-full duration-200"
+            (click)="selectNav()"
+            [ngClass]="
+            open && selectedNav
+               ? 'py-4 translate-x-10': 'py-0 translate-x-0'"
+        >
+            <div
+                class="h-auto w-full"
+                [ngClass]="
+                open && selectedNav
+                    ? 'border-4 border-green-300  overflow-hidden'
+                    : 'border-none'"
+            >
+                <div
+                    class="h-16 w-full bg-white border-b-2"
+                    *ngIf="open && selectedNav"
+                >
+                    <app-navigation-section
+                        [title]="'Navigation'"
+                        [navigation]="website.navigation"
+                        (update)="updateNavigation($event)"
+                    ></app-navigation-section>
+                </div>
+                <app-navigation
+                    class="pointer-events-none"
+                    [nav]="website.navigation"
+                    [web]="website.id"
+                    id="navigation"
+                    *ngIf="website.navigation.id != 0"
+                />
+                <div
+                    *ngIf="website.navigation.id === 0"
+                    class="bg-white w-full h-20 flex justify-center items-center"
+                >
+                    <p class="uppercase text-red-500">
+                        Navigation will be set after saving!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #noNav>
+        <div class="h-20 w-full flex justify-center items-center">
+            <button
+                class="uppercase font-bold p-4 bg-green-400 hover:bg-green-500 text-white"
+                (click)="addNav.emit()"
+            >
+                + Add Navigation
+            </button>
+        </div>
+    </ng-template>
+
+    <div class="h-auto w-full" cdkDropList (cdkDropListDropped)="drop($event)">
+        <ng-container
+            *ngIf="componentsPreview.length === 0; else componentsEditor"
+        >
+            <div
+                class="w-full h-full flex flex-col gap-2 justify-center items-center"
+            >
+                <div
+                    class="w-full h-96 flex flex-col justify-center items-center"
+                    *ngIf="!toggleAdd"
+                >
+                    <p class="text-2xl text-slate-400">No components added</p>
+                    <button
+                        class="font-bold text-white text-xl h-10 w-10 bg-green-300"
+                        (click)="toggleAddComponent()"
+                        *ngIf="!toggleAdd"
+                    >
+                        +
+                    </button>
+                </div>
+                <div class="w-full h-full" *ngIf="toggleAdd">
+                    <app-add-component
+                        (closeEvent)="hoverLeave()"
+                        (addEvent)="addComponentEvent($event)"
+                        [index]="0"
+                    >
+                    </app-add-component>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #componentsEditor>
+            <ng-container *ngFor="let item of componentsPreview; index as i">
+                <div
+                    class="w-full h-auto relative duration-200"
+                    [ngClass]="open && selectedComp === i? 'py-4 translate-x-10': 'py-0 translate-x-0'"
+                    cdkDrag
+                    [cdkDragDisabled]="open && selectedComp === i ? 'false' : 'true'"
+                    (mouseenter)="hoverEnter(i)"
+                    (mouseleave)="hoverLeave()"
+                >
+                    <app-add-component
+                        (closeEvent)="hoverLeave()"
+                        (addEvent)="addComponentEvent($event)"
+                        [index]="i"
+                        *ngIf="toggleAdd && hover === i"
+                    >
+                    </app-add-component>
+
+                    <div
+                        class="h-16 w-full flex flex-row duration-200"
+                        *ngIf="open && selectedComp === i"
+                    >
+                        <div
+                            class="w-full h-full bg-white border-x-4 border-t-4 border-green-300"
+                        >
+                            <app-components-select
+                                [component]="components[i]"
+                                [i]="i"
+                                (update)="updateEvent($event)"
+                                (remove)="removeComponent($event)"
+                            >
+                            </app-components-select>
+                        </div>
+                    </div>
+
+                    <div
+                        class="relative h-auto w-full flex flex-col duration-200"
+                    >
+                        <div
+                            class="py-2 absolute w-8 z-50 left-0 bg-green-300 flex flex-col justify-between items-center"
+                            *ngIf="hover === i"
+                            [ngClass]="toggleAdd? 'hidden': 'block'"
+                        >
+                            <button
+                                class="font-bold text-white text-xl w-full h-full"
+                                (click)="toggleAddComponent()"
+                            >
+                                +
+                            </button>
+                        </div>
+
+                        <div
+                            class="py-2 absolute w-8 z-50 left-0 bottom-0 bg-green-300 flex flex-col justify-between items-center"
+                            *ngIf="hover === i && componentsPreview.length - 1 === i "
+                            [ngClass]="toggleAdd? 'hidden': 'block'"
+                        >
+                            <button
+                                class="font-bold text-white text-xl w-full h-full"
+                                (click)="toggleAddComponentBottm()"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <div
+                            class="h-auto w-full"
+                            [ngClass]="open && selectedComp === i? 'overflow-hidden border-x-4 border-b-4 border-t-2 border-t-slate-200 border-x-green-300 border-b-green-300 ': 'hover:opacity-80'"
+                            (click)="toggleSelect(item.ele, i)"
+                        >
+                            <section
+                                id="{{item.ele.position}}"
+                                class="duration-200"
+                            >
+                                <div>
+                                    <ng-container
+                                        *ngComponentOutlet="item.component; inputs: item.inputs;"
+                                        class="pointer-events-none"
+                                    />
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <app-add-component
+                        (closeEvent)="hoverLeave()"
+                        (addEvent)="addComponentEventBottom($event)"
+                        [index]="componentsPreview.length"
+                        *ngIf="toggleAddBottom && hover === i"
+                    >
+                    </app-add-component>
+                </div>
+            </ng-container>
+        </ng-template>
+    </div>
+
+    <ng-container *ngIf="website.footer; else noFooter">
+        <div
+            class="h-auto w-full duration-200"
+            (click)="selectFot()"
+            [ngClass]="
+            open && selectedFot
+                ? 'py-4 translate-x-10': 'py-0 translate-x-0'"
+        >
+            <div
+                class="h-auto w-full"
+                [ngClass]="
+                open && selectedFot
+                    ? 'border-4 border-green-300  overflow-hidden'
+                    : 'border-none'"
+            >
+                <div
+                    class="h-16 w-full bg-white border-b-2"
+                    *ngIf="open && selectedFot"
+                >
+                    <app-navigation-section
+                        [title]="'Footer'"
+                        [navigation]="website.footer"
+                        (update)="updateFooter($event)"
+                    ></app-navigation-section>
+                </div>
+
+                <app-footer
+                    class="pointer-events-none"
+                    [fot]="website.footer"
+                    [web]="website.id"
+                    id="footer"
+                    *ngIf="website.footer.id != 0"
+                />
+
+                <div
+                    *ngIf="website.footer.id === 0"
+                    class="bg-white w-full h-20 flex justify-center items-center"
+                >
+                    <p class="uppercase text-red-500">
+                        Footer will be set after saving!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #noFooter>
+        <div class="h-16 w-full flex justify-center items-center mt-2">
+            <button
+                (click)="addFot.emit()"
+                class="uppercase font-bold p-4 bg-green-400 hover:bg-green-500 text-white"
+            >
+                + Add Footer
+            </button>
+        </div>
+    </ng-template>
+</div>

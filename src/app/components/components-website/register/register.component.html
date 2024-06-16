@@ -1,0 +1,115 @@
+<section class="bg-white text-gray-800">
+    <div class="flex flex-row h-96 w-full">
+        <div
+            class="h-full w-1/2 flex justify-center items-center"
+            [class]="getBgColorClass(backgroundColor)"
+        >
+            <div class="flex flex-col justify-start items-center">
+                <div
+                    class="w-5/6 flex justify-center items-center"
+                    [class]="getTextColorClass(color)"
+                >
+                    <p class="{{ textSize }} {{ textWeight }} {{ textStyle }}">
+                        {{ text }}
+                    </p>
+                </div>
+                <div
+                    class="w-5/6 flex justify-start items-center"
+                    [class]="getTextColorClass(color)"
+                >
+                    <p
+                        class="{{ subTextSize }} {{ subTextWeight }} {{
+                            subTextStyle
+                        }}"
+                    >
+                        {{ subText }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div
+            class="h-full w-1/2 flex flex-col justify-center items-center gap-2"
+        >
+            <form
+                class="w-5/6 h-auto flex flex-col gap-2"
+                [formGroup]="registerForm"
+                (submit)="onSubmit(registerForm)"
+            >
+                <input
+                    type="text"
+                    placeholder="Name"
+                    class="rounded-md bg-none"
+                    formControlName="name"
+                />
+                <div
+                    *ngIf="name?.invalid && name?.touched"
+                    class="alert alert-danger"
+                >
+                    <div
+                        *ngIf="name?.errors?.['required']"
+                        class="text-xs text-red-500"
+                    >
+                        Name is required.
+                    </div>
+                </div>
+                <input
+                    type="text"
+                    placeholder="Surname"
+                    class="rounded-md bg-none"
+                    formControlName="surname"
+                />
+                <div
+                    *ngIf="surname?.invalid && surname?.touched"
+                    class="alert alert-danger"
+                >
+                    <div
+                        *ngIf="surname?.errors?.['required']"
+                        class="text-xs text-red-500"
+                    >
+                        Surname is required.
+                    </div>
+                </div>
+                <input
+                    type="email"
+                    name
+                    id
+                    class="rounded-md bg-none"
+                    placeholder="example@email.com"
+                    formControlName="email"
+                />
+                <div
+                    *ngIf="email?.invalid && email?.touched"
+                    class="alert alert-danger"
+                >
+                    <div
+                        *ngIf="email?.errors?.['required']"
+                        class="text-xs text-red-500"
+                    >
+                        Email is required.
+                    </div>
+                    <div
+                        *ngIf="email?.errors?.['email']"
+                        class="text-xs text-red-500"
+                    >
+                        Incorrect email format
+                    </div>
+                </div>
+                <button
+                    class="p-2 text-white rounded-md mt-2"
+                    [class]="getBgColorClass(backgroundColor)"
+                    type="submit"
+                >
+                    SUBMIT
+                </button>
+                <p
+                    *ngIf="message"
+                    [ngClass]="
+                        message.error ? 'text-red-500' : 'text-green-500'
+                    "
+                >
+                    {{ message.msg }}
+                </p>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,46 @@
+<div (mouseleave)="close()" class="w-32 text-center gap-2">
+    <div
+        [ngClass]="this.links.length > 0 ? 'flex flex-row items-center justify-center':''"
+    >
+        <a
+            href="{{createLink(mainLink.url)}}"
+            class="block py-2 px-3 {{textColor}}"
+            aria-current="page"
+            >{{mainLink.name.toUpperCase()}}</a
+        >
+        <svg
+            class="w-5 h-5 {{textColor}} duration-100"
+            *ngIf="this.links.length > 0"
+            [ngClass]="[hover ? 'rotate-180' : '']"
+            (click)="open()"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m5 15 7-7 7 7"
+            />
+        </svg>
+    </div>
+
+    <div
+        *ngIf="hover && this.links.length > 0"
+        class="absolute z-30 w-32 {{backgroundColor}} rounded-lg border border-slate-100 dark:border-white shadow-lg"
+    >
+        <ng-container *ngFor="let link of links">
+            <a
+                href="{{createLink(link.url)}}"
+                class="block py-2 px-3 rounded {{textColor}}"
+                aria-current="page"
+                >{{link.name.toUpperCase()}}</a
+            >
+        </ng-container>
+    </div>
+</div>

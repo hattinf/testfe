@@ -1,0 +1,248 @@
+<div
+    class="w-full h-full flex flex-col overflow-auto"
+    *ngIf="isAdmin; else notAdmin"
+>
+    <div class="w-full h-16 flex p-4 bg-gray-200 font-bold" *ngIf="!loading">
+        <div class="h-full w-20 flex justify-start items-center">
+            <svg
+                class="w-6 h-6 text-black"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z"
+                    clip-rule="evenodd"
+                />
+            </svg>
+        </div>
+        <div class="w-32 h-full flex justify-start items-center">ID</div>
+        <div class="w-96 h-full flex justify-start items-center">Username</div>
+        <div class="w-96 h-full flex justify-start items-center">Email</div>
+        <div class="w-96 h-full flex justify-start items-center">Role</div>
+        <!-- <div class="w-96 h-full flex justify-start items-center">Password</div> -->
+        <div class="w-full h-full flex justify-end items-center">
+            <button
+                class="w-20 h-10 bg-green-400 hover:bg-green-500 text-white rounded-md"
+                (click)="toggleAdd()"
+                *ngIf="!toggle"
+            >
+                Add
+            </button>
+            <button
+                class="w-20 h-10 bg-gray-400 hover:bg-gray-500 text-white rounded-md"
+                (click)="toggleAdd()"
+                *ngIf="toggle"
+            >
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <form
+        class="w-full h-28 flex justify-center p-4 bg-white border-b-2 border-gray-200"
+        *ngIf="toggle"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="h-full w-20 flex justify-start items-center">
+            <svg
+                class="w-6 h-6 text-black"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    fill-rule="evenodd"
+                    d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z"
+                    clip-rule="evenodd"
+                />
+            </svg>
+        </div>
+
+        <div class="w-32 h-full"></div>
+        <div
+            class="relative w-96 h-full flex flex-col items-center justify-center"
+        >
+            <input
+                class="w-5/6 h-10 border-2 border-gray-200 rounded-md"
+                type="text"
+                placeholder="Username"
+                formControlName="username"
+            />
+            <div
+                class="absolute -bottom-1 text-sm left-5 text-red-500"
+                *ngIf="
+                    form.get('username')?.invalid &&
+                    (form.get('username')?.touched ||
+                        form.get('username')?.dirty)
+                "
+            >
+                <p *ngIf="form.controls['username'].errors?.['required']">
+                    Required field
+                </p>
+                <p *ngIf="form.controls['username'].errors?.['minlength']">
+                    min 3 char.
+                </p>
+                <p *ngIf="form.controls['username'].errors?.['maxLength']">
+                    max 30 char.
+                </p>
+            </div>
+        </div>
+        <div class="relative w-96 h-full flex items-center justify-start">
+            <input
+                class="w-5/6 h-10 border-2 border-gray-200 rounded-md"
+                type="email"
+                placeholder="Email"
+                formControlName="email"
+                required
+            />
+            <div
+                class="absolute -bottom-1 text-sm left-0 text-red-500"
+                *ngIf="
+                    form.get('email')?.invalid &&
+                    (form.get('email')?.touched || form.get('email')?.dirty)
+                "
+            >
+                <p *ngIf="form.controls['username'].errors?.['required']">
+                    Required field
+                </p>
+                <p *ngIf="form.controls['username'].errors?.['email']">
+                    Invalid email
+                </p>
+            </div>
+        </div>
+        <div class="w-96 h-full flex items-center justify-start">
+            <select
+                class="w-5/6 h-10 border-2 border-gray-200 rounded-md"
+                formControlName="roles"
+            >
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+        </div>
+        <div class="relative w-96 h-full flex items-center justify-start">
+            <input
+                class="w-5/6 h-10 border-2 border-gray-200 rounded-md"
+                type="password"
+                placeholder="Password"
+                formControlName="password"
+            />
+            <div
+                class="absolute -bottom-1 text-sm left-0 text-red-500 w-96"
+                *ngIf="
+                    form.get('password')?.invalid &&
+                    (form.get('password')?.touched ||
+                        form.get('password')?.dirty)
+                "
+            >
+                <p>
+                    <ng-container
+                        *ngIf="form.controls['password'].errors?.['required']"
+                    >
+                        Required field.
+                    </ng-container>
+                    <ng-container
+                        *ngIf="form.controls['password'].errors?.['minlength']"
+                    >
+                        Min 6 char.
+                    </ng-container>
+                    <ng-container
+                        *ngIf="
+                            form.controls['password'].errors?.[
+                                'invalidPassword'
+                            ] && !form.controls['password'].errors?.['required']
+                        "
+                    >
+                        Invalid password.
+                    </ng-container>
+                </p>
+
+                <p></p>
+            </div>
+            <div
+                class="absolute -bottom-1 text-sm left-0 text-red-500 w-96"
+                *ngIf="
+                    form.get('password')?.invalid &&
+                    (form.get('password')?.touched ||
+                        form.get('password')?.dirty)
+                "
+            >
+                <p>
+                    <ng-container
+                        *ngIf="form.controls['password'].errors?.['required']"
+                    >
+                        Required field.
+                    </ng-container>
+                    <ng-container
+                        *ngIf="form.controls['password'].errors?.['minlength']"
+                    >
+                        Min 6 char.
+                    </ng-container>
+                    <ng-container
+                        *ngIf="
+                            form.controls['password'].errors?.[
+                                'invalidPassword'
+                            ] && !form.controls['password'].errors?.['required']
+                        "
+                    >
+                        Invalid password.
+                    </ng-container>
+                </p>
+
+                <p></p>
+            </div>
+            <div
+                class="h-full w-96 p-4 flex justify-center items-center"
+                *ngIf="error"
+            >
+                <p class="text-xs text-red-500">{{ error }}</p>
+            </div>
+        </div>
+        <div class="w-full h-full flex justify-end items-center gap-2">
+            <button
+                class="w-20 h-10 bg-green-400 hover:bg-green-500 text-white rounded-md"
+            >
+                Save
+            </button>
+        </div>
+    </form>
+    <div
+        class="w-full h-16 flex p-4 bg-white border-b-2 border-gray-200"
+        *ngFor="let user of userData; let i = index"
+    >
+        <div class="h-full w-20 flex justify-start items-center"></div>
+        <div class="w-32 h-full flex justify-start items-center">
+            {{ user.id }}
+        </div>
+        <div class="w-96 h-full flex justify-start items-center">
+            {{ user.username }}
+        </div>
+        <div class="w-96 h-full flex justify-start items-center">
+            {{ user.email }}
+        </div>
+        <div
+            class="w-96 h-full flex justify-start items-center uppercase italic"
+        >
+            {{ user.roles[0].name === "ROLE_ADMIN" ? "admin" : "user" }}
+        </div>
+        <div class="w-full h-full flex justify-end items-center">
+            <app-delete-confirm
+                (delete)="deleteUser(user.id)"
+                [short]="false"
+            ></app-delete-confirm>
+        </div>
+    </div>
+</div>
+<ng-template #notAdmin>
+    <div class="w-full h-full flex justify-center items-center italic">
+        <p>"no permission"</p>
+    </div>
+</ng-template>

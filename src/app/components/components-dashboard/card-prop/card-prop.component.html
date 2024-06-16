@@ -1,0 +1,188 @@
+<div class="flex flex-col">
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Section style</p>
+    </div>
+    <app-color
+        [control]="this.backgroundColor"
+        [select]="'background'"
+        [label]="'Background'"
+        class="my-2"
+    ></app-color>
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Cards</p>
+        <button (click)="addCard()" *ngIf="props.data.cards.length < 4">
+            +
+        </button>
+    </div>
+    <div
+        class="pb-2 flex flex-col"
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+    >
+        <div
+            class="bg-white flex flex-col justify-between items-center gap-2 w-full h-auto border-b-2 px-4 py-3"
+            *ngFor="let card of props.data.cards; index as i; trackBy: trackByFn"
+            cdkDrag
+        >
+            <div class="h-full w-full flex flex-row gap-2 items-center">
+                <div class="h-full w-1/2 flex flex-row items-center gap-2">
+                    <div class="h-full w-auto flex justify-center items-center">
+                        <button
+                            class="flex h-full w-full items-center justify-center"
+                            cdkDragHandle
+                        >
+                            <svg
+                                class="w-6 h-6 text-gray-800 dark:text-white"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                    <button
+                        class="h-full w-28 flex justify-center items-start flex-col"
+                        (click)="toggle && selectedIndex === i ? toggleOpen() : select(card, i)"
+                    >
+                        <p class="font-bold text-xs">Card {{ i + 1 }}</p>
+                        <p class="text-xs italic text-slate-500">
+                            card element
+                        </p>
+                    </button>
+                </div>
+                <div
+                    class="h-full w-1/2 flex flex-row items-center justify-end"
+                    *ngIf="toggle && selectedIndex === i"
+                >
+                    <app-delete-confirm
+                        (delete)="deleteCard(i)"
+                    ></app-delete-confirm>
+                </div>
+            </div>
+            <div
+                class="h-full w-full mt-3"
+                *ngIf="toggle && selectedIndex === i"
+            >
+                <!-- https://stackoverflow.com/questions/59931864/angular-form-controls-lose-focus-very-quickly -->
+                <form [formGroup]="form" class="flex flex-col gap-2">
+                    <div>
+                        <div
+                            class="flex justify-start items-center h-8 w-full rounded-t-md border border-b-0 border-gray-400 overflow-hidden bg-slate-100"
+                        >
+                            <select
+                                class="w-auto text-black-900 text-sm border-none bg-slate-100"
+                                formControlName="titleSize"
+                            >
+                                <option value="text-xs">X-Small text</option>
+                                <option value="text-sm">Small text</option>
+                                <option value="text-base">Normal text</option>
+                                <option value="text-lg">Large text</option>
+                                <option value="text-xl">X-Large text</option>
+                                <option value="text-2xl">2X-Large text</option>
+                            </select>
+                        </div>
+                        <input
+                            type="text"
+                            name="name"
+                            class="w-full h-10 rounded-b-[7px] border border-blue-gray-200"
+                            formControlName="title"
+                        />
+                    </div>
+
+                    <div class="">
+                        <div
+                            class="flex justify-start items-center h-8 w-full rounded-t-md border border-b-0 border-gray-400 overflow-hidden bg-slate-100"
+                        >
+                            <select
+                                class="w-auto text-black-900 text-sm border-none bg-slate-100"
+                                formControlName="descriptionSize"
+                            >
+                                <option value="text-xs">X-Small text</option>
+                                <option value="text-sm">Small text</option>
+                                <option value="text-base">Normal text</option>
+                                <option value="text-lg">Large text</option>
+                                <option value="text-xl">X-Large text</option>
+                            </select>
+                        </div>
+                        <textarea
+                            type="description"
+                            name="description"
+                            formControlName="description"
+                            class="h-40 min-h-[100px] w-full resize-none rounded-b-md border border-gray-400 bg-transparent px-3 py-2.5 text-sm font-normal"
+                        ></textarea>
+                    </div>
+
+                    <label for="string" class="text-xs font-bold"
+                        >Card image</label
+                    >
+                    <div class="flex flex-col gap-2">
+                        <div
+                            class="h-20 w-full relative rounded-lg overflow-hidden"
+                            *ngIf="form.controls['image'].value"
+                        >
+                            <div
+                                (click)="handleRemove()"
+                                class="h-20 w-full absolute z-10 rounded-lg text-slate-500 border-2 hover:border-red-500 flex justify-center items-center hover:text-red-500 cursor-pointer"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <input
+                            type="file"
+                            (change)="handleChange($event)"
+                            accept="image/*"
+                            class="w-full"
+                            *ngIf="!form.controls['image'].value"
+                        />
+                    </div>
+                    <app-color
+                        [control]="form.controls['titleColor']"
+                        [select]="'text'"
+                        [label]="'Title color'"
+                        class=""
+                    ></app-color>
+                    <app-color
+                        [control]="form.controls['descriptionColor']"
+                        [select]="'text'"
+                        [label]="'Description color'"
+                        class=""
+                    ></app-color>
+                    <app-color
+                        [control]="form.controls['color']"
+                        [select]="'background'"
+                        [label]="'Background color'"
+                    ></app-color>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

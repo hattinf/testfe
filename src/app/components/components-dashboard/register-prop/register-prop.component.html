@@ -1,0 +1,101 @@
+<form [formGroup]="register" class="flex flex-col gap-2">
+    <div class="border-b-2 border-t-2 py-2 px-4">
+        <p class="text-sm text-slate-500">Content</p>
+    </div>
+    <div class="pb-2 flex flex-col gap-2">
+        <div class="px-4">
+            <div
+                class="flex justify-start items-center h-8 w-full rounded-t-md border border-b-0 border-gray-400 overflow-hidden bg-slate-100"
+            >
+                <select
+                    class="w-auto text-black-900 text-sm border-none bg-slate-100"
+                    formControlName="textSize"
+                >
+                    <option value="text-xs">X-Small text</option>
+                    <option value="text-sm">Small text</option>
+                    <option value="text-base">Normal text</option>
+                    <option value="text-lg">Large text</option>
+                    <option value="text-xl">X-Large text</option>
+                    <option value="text-2xl">2X-Large text</option>
+                    <option value="text-4xl">4X-Large text</option>
+                    <option value="text-6xl">6X-Large text</option>
+                </select>
+                <div class="h-full w-auto border-x-2">
+                    <button
+                        (click)="toggleValue(register.controls['textWeight'], 'font-bold')"
+                        class="text-center font-bold w-8 h-full hover:bg-slate-200"
+                        [ngClass]="register.controls['textWeight'].value === 'font-bold' ? 'bg-slate-200' :'' "
+                    >
+                        B
+                    </button>
+                    <button
+                        (click)="toggleValue(register.controls['textStyle'], 'italic')"
+                        class="text-center italic w-8 h-full hover:bg-slate-200"
+                        [ngClass]="register.controls['textStyle'].value === 'italic' ? 'bg-slate-200' :'' "
+                    >
+                        I
+                    </button>
+                </div>
+            </div>
+            <textarea
+                type="text"
+                name="text"
+                formControlName="text"
+                class="h-40 min-h-[100px] w-full resize-none rounded-b-md border border-gray-400 bg-transparent px-3 py-2.5 text-sm font-normal"
+            ></textarea>
+        </div>
+        <div class="px-4">
+            <div
+                class="flex justify-start items-center h-8 w-full rounded-t-md border border-b-0 border-gray-400 overflow-hidden bg-slate-100"
+            >
+                <select
+                    class="w-auto text-black-900 text-sm border-none bg-slate-100"
+                    formControlName="subTextSize"
+                >
+                    <option value="text-xs">X-Small text</option>
+                    <option value="text-sm">Small text</option>
+                    <option value="text-base">Normal text</option>
+                    <option value="text-lg">Large text</option>
+                    <option value="text-xl">X-Large text</option>
+                </select>
+                <div class="h-full w-auto border-x-2">
+                    <button
+                        (click)="toggleValue(register.controls['subTextWeight'], 'font-bold')"
+                        class="text-center font-bold w-8 h-full hover:bg-slate-200"
+                        [ngClass]="register.controls['subTextWeight'].value === 'font-bold' ? 'bg-slate-200' :'' "
+                    >
+                        B
+                    </button>
+                    <button
+                        (click)="toggleValue(register.controls['subTextStyle'], 'italic')"
+                        class="text-center italic w-8 h-full hover:bg-slate-200"
+                        [ngClass]="register.controls['subTextStyle'].value === 'italic' ? 'bg-slate-200' :'' "
+                    >
+                        I
+                    </button>
+                </div>
+            </div>
+            <textarea
+                type="text"
+                name="subText"
+                formControlName="subText"
+                class="h-40 min-h-[100px] w-full resize-none rounded-b-md border border-gray-400 bg-transparent px-3 py-2.5 text-sm font-normal"
+            ></textarea>
+        </div>
+    </div>
+
+    <div class="border-b-2 border-t-2 py-2 px-4 flex gap-1 jys">
+        <p class="text-sm text-slate-500">Color</p>
+    </div>
+    <app-color
+        [control]="register.controls['color']"
+        [select]="'text'"
+        [label]="'Text'"
+    ></app-color>
+    <app-color
+        [control]="register.controls['backgroundColor']"
+        [select]="'background'"
+        [label]="'Background'"
+        class=""
+    ></app-color>
+</form>

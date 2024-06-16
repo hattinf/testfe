@@ -1,0 +1,35 @@
+<div class="h-auto w-auto flex flex-row justify-between items-center px-4">
+    <div class="h-8 w-5/6 rounded-lg flex justify-start items-center">
+        {{label}}
+    </div>
+    <button
+        class="h-6 w-6 border-2 border-black rounded-lg flex justify-center items-center"
+        [ngClass]="'bg'+ rawColor()"
+        (click)="toggle()"
+        *ngIf="!open"
+    ></button>
+
+    <button
+        class="h-6 w-6 border-2 rounded-lg border-black flex justify-center items-center"
+        (click)="toggle()"
+        *ngIf="open"
+    >
+        <p class="rotate-45 text-lg">+</p>
+    </button>
+</div>
+<div
+    class="h-40 w-auto flex flex-wrap justify-start items-center gap-1 overflow-auto p-2 rounded-md mt-2 mx-2 container-scroll bg-slate-200"
+    *ngIf="open"
+>
+    <ng-container *ngFor="let color of colors">
+        <button
+            (click)="setColor(prefix+c)"
+            class="h-6 w-6 rounded-md {{'bg'+ c}}"
+            *ngFor="let c of color.values"
+            [ngClass]="
+            selectedColor(c) ? 'border-4 border-red-500' : 'border-2 border-black'
+        "
+            id="{{c}}"
+        ></button>
+    </ng-container>
+</div>

@@ -1,0 +1,39 @@
+<div class="h-screen w-full flex flex-col">
+    <div class="flex h-full w-full">
+        <div class="p-3 max-w-sm">
+            <div
+                class="flex rounded-lg h-96 w-96 bg-white border-2 border-slate-300 p-4 flex-col"
+            >
+                <div class="h-1/6 uppercase flex items-center">
+                    <p class="text-2xl font-bold">new website</p>
+                </div>
+                <form
+                    class="h-5/6 flex flex-col justify-between"
+                    (submit)="onSubmit()"
+                    [formGroup]="web"
+                >
+                    <input
+                        type="text"
+                        formControlName="name"
+                        class="rounded"
+                        placeholder="Website name"
+                    />
+                    <div
+                        class="h-auto w-auto flex flex-row justify-end items-center gap-2"
+                    >
+                        <button
+                            class="h-10 p-2 text-white bg-green-400 mt-2 rounded"
+                        >
+                            submit
+                        </button>
+                        <a
+                            href="/dashboard/websites"
+                            class="p-2 text-black bg-slate-200 rounded hover:bg-slate-300 mt-2 hover:text-blue-500"
+                            >cancel</a
+                        >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

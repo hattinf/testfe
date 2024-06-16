@@ -1,0 +1,47 @@
+<section class="w-auto flex justify-center bg-white">
+    <div class="m-5">
+        <div
+            class="flex flex-row w-auto lg:w-[50rem] h-20 {{
+                data.color
+            }} font-noaLight {{ data.titleSize }} {{ data.titleColor }} {{
+                data.titleWeight
+            }} {{
+                data.titleStyle
+            }}  items-center justify-center lg:justify-start px-5"
+        >
+            <div class="flex flex-row mr-4">
+                <div>{{ month }}</div>
+                <div class="ml-2">{{ day }}</div>
+                <p class="mr-1">,</p>
+                <p>{{ year }}</p>
+            </div>
+            <p>{{ data.title }}</p>
+        </div>
+        <ng-container *ngFor="let activity of data.activities">
+            <div class="flex flex-row lg:w-[50rem] my-5 w-auto">
+                <div
+                    class="h-auto w-44 text-black text-lg lg:text-2xl py-2 {{
+                        data.textColor
+                    }}"
+                >
+                    {{ activity.from }}-{{ activity.to }}
+                </div>
+                <div
+                    class="flex flex-col gap-1 h-auto w-5/6 text-black py-2 pl-4 mb-5 border-l-2 {{
+                        data.textColor
+                    }}"
+                    [ngClass]="convertBorder(data.color)"
+                >
+                    <div class="text-2xl">{{ activity.title }}</div>
+                    <div class="text-xs">{{ activity.description }}</div>
+                    <div
+                        class="text-sm {{ data.textColor }}"
+                        *ngIf="activity.location"
+                    >
+                        Location: {{ activity.location }}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</section>

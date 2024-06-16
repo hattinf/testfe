@@ -1,0 +1,23 @@
+<ng-container *ngIf="websiteData.page; else error">
+    <ng-container *ngIf="!loading && websiteData">
+        <div *ngIf="websiteData.navigation" class="">
+            <app-navigation [nav]="websiteData.navigation" [web]="movieID" />
+        </div>
+        <div class="h-auto w-screen font-sans">
+            <ng-container *ngFor="let item of components">
+                <section>
+                    <ng-container
+                        *ngComponentOutlet="item.component; inputs: item.inputs;"
+                    />
+                </section>
+            </ng-container>
+        </div>
+        <div *ngIf="websiteData.footer">
+            <app-footer [fot]="websiteData.footer" [web]="movieID" />
+        </div>
+    </ng-container>
+</ng-container>
+
+<ng-template #error>
+    <app-fail></app-fail>
+</ng-template>

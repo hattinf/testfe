@@ -1,0 +1,28 @@
+<section class="{{image ? 'bg-white' : backgroundColor}} flex justify-center">
+    <div class="relative flex w-full" [ngClass]="returnSize()">
+        <div
+            class="absolute z-10 h-full w-full {{imageTintColor}} bg-opacity-60"
+            *ngIf="image"
+        >
+            <img
+                src="{{image}}"
+                class="object-cover h-full w-full mix-blend-multiply"
+                [ngClass]="getImageDarken(imageDarken)"
+            />
+        </div>
+        <div
+            class="absolute z-20 h-full w-full flex flex-col {{alignText}} {{justifyText}} p-4"
+        >
+            <div class="flex flex-col {{alignText}}">
+                <h1 class="text-4xl {{textWeight}} {{textStyle}}">
+                    <span class="{{textColor}}">{{name}}</span>
+                </h1>
+                <p
+                    class="{{textColor}} {{subTextStyle}} {{subTextWeight}} {{subTextSize}}"
+                >
+                    {{subText}}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

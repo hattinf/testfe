@@ -1,0 +1,67 @@
+<form [formGroup]="image" class="flex flex-col gap-2">
+    <div class="border-b-2 border-t-2 py-2 px-4">
+        <p class="text-sm text-slate-500">Color</p>
+    </div>
+    <app-color
+        [control]="image.controls['imageBackground']"
+        [select]="'background'"
+        [label]="'Background'"
+    ></app-color>
+    <div class="border-b-2 border-t-2 py-2 px-4 flex gap-1 jys">
+        <p class="text-sm text-slate-500">Section height</p>
+    </div>
+    <div class="px-4 py-2 flex flex-row gap-2">
+        <span
+            class="w-2/6 text-sm text-slate-500 border-2 p-1 rounded-lg text-center"
+        >
+            {{ getPadding() }}
+        </span>
+        <div class="w-full p-1 flex justify-center items-center">
+            <input
+                type="range"
+                name=""
+                id=""
+                min="0"
+                max="{{ paddingValue.length - 1 }}"
+                formControlName="padding"
+                class="transparent h-[4px] w-full cursor-pointer appearance-none border-transparent bg-neutral-200"
+            />
+        </div>
+    </div>
+    <div class="border-b-2 border-t-2 py-2 px-4">
+        <p class="text-sm text-slate-500">Image</p>
+    </div>
+    <div
+        class="flex flex-col gap-2 px-4"
+        *ngIf="this.image.controls['imageLink'].value; else uploadContent"
+    >
+        <div class="h-20 w-full relative rounded-lg overflow-hidden">
+            <div
+                class="h-20 w-full absolute z-10 rounded-lg text-slate-500 border-2 hover:border-red-500 flex justify-center hover:bg-gray-600 hover:bg-opacity-35 items-center hover:text-red-500 cursor-pointer"
+            >
+                <app-delete-confirm
+                    (delete)="handleRemove()"
+                ></app-delete-confirm>
+            </div>
+            <div
+                class="h-20 w-full absolute z-0 overflow-hidden rounded-lg hover:bg-red-500"
+            >
+                <img
+                    src="{{ this.image.controls['imageLink'].value }}"
+                    alt="image"
+                    class="h-20 w-full object-cover opacity-45"
+                />
+            </div>
+        </div>
+    </div>
+
+    <ng-template #uploadContent>
+        <input
+            type="file"
+            (change)="handleChange($event)"
+            accept="image/*"
+            class="w-full mx-4"
+            *ngIf="!image.controls['imageLink'].value"
+        />
+    </ng-template>
+</form>

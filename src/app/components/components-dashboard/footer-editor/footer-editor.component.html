@@ -1,0 +1,37 @@
+<form [formGroup]="nav" class="flex flex-col gap-2">
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Bottom Text</p>
+    </div>
+    <div class="px-4 py-2">
+        <input
+            type="text"
+            name="bottomText"
+            formControlName="bottomText"
+            class="w-full h-10 rounded-[7px] border border-blue-gray-200"
+        />
+    </div>
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Navigation style</p>
+    </div>
+    <app-color
+        [control]="nav.controls['backgroundColor']"
+        [select]="'background'"
+        [label]="'Background color'"
+        class="my-2"
+    ></app-color>
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Link style</p>
+    </div>
+    <app-color
+        [control]="nav.controls['linkColor']"
+        [select]="'text'"
+        [label]="'Text color'"
+        class="my-2"
+    ></app-color>
+</form>

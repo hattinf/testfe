@@ -1,0 +1,83 @@
+<div class="h-screen w-full flex flex-col" *ngIf="!loading; else loadingBar">
+    <div class="h-full w-full flex flex-col justify-start items-center">
+        <div
+            class="w-full h-16 flex flex-row py-2 px-4 gap-4 justify-start items-center bg-gray-200"
+        >
+            <p class="font-bold">ID:{{ websiteID }}</p>
+            <p class="text-sm text-black italic">registered participants</p>
+        </div>
+        <div
+            class="w-full h-full flex flex-row gap-2"
+            *ngIf="regData.length > 0; else notPresent"
+        >
+            <div class="w-full overflow-x-auto bg-white dark:bg-neutral-700">
+                <table class="min-w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                        class="uppercase tracking-wider border-b-2 dark:border-neutral-600"
+                    >
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nr.</th>
+                            <th scope="col" class="px-6 py-3">Email</th>
+                            <th scope="col" class="px-6 py-3">Name</th>
+                            <th scope="col" class="px-6 py-3">Surname</th>
+                            <th scope="col" class="px-6 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            class="border-b dark:border-neutral-600"
+                            *ngFor="let item of regData; index as i"
+                        >
+                            <th scope="row" class="px-6 py-3">{{ i + 1 }}.</th>
+                            <th
+                                scope="row"
+                                class="px-6 py-3 flex flex-row gap-2 items-center justify-start"
+                            >
+                                <p>{{ item.email }}</p>
+                            </th>
+                            <td class="px-6 py-3">{{ item.name }}</td>
+                            <td class="px-6 py-3">{{ item.surname }}</td>
+                            <!-- <td class="px-6 py-3">{{item.newsletter ? "V" : "X"}}</td> -->
+                            <td>
+                                <app-delete-confirm
+                                    (delete)="
+                                        deleteRegisteredParticipant(item.id)
+                                    "
+                                    [short]="false"
+                                ></app-delete-confirm>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ng-template #notPresent>
+            <div
+                class="w-full h-full flex justify-center items-center bg-white"
+            >
+                "not configure or no sign-ups"
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<ng-template #loadingBar>
+    <div class="h-screen w-full flex flex-col justify-center items-center">
+        <svg
+            class="w-10 h-10 text-gray-800 dark:text-white animate-spin"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M5.5 3a1 1 0 0 0 0 2H7v2.333a3 3 0 0 0 .556 1.74l1.57 2.814A1.1 1.1 0 0 0 9.2 12a.998.998 0 0 0-.073.113l-1.57 2.814A3 3 0 0 0 7 16.667V19H5.5a1 1 0 1 0 0 2h13a1 1 0 1 0 0-2H17v-2.333a3 3 0 0 0-.56-1.745l-1.616-2.82a1 1 0 0 0-.067-.102 1 1 0 0 0 .067-.103l1.616-2.819A3 3 0 0 0 17 7.333V5h1.5a1 1 0 1 0 0-2h-13Z"
+                clip-rule="evenodd"
+            />
+        </svg>
+        <p>loading data</p>
+    </div>
+</ng-template>

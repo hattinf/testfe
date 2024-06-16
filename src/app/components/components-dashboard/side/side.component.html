@@ -1,0 +1,219 @@
+<div
+    class="flex flex-col h-full w-72 bg-white overflow-auto container-scroll pb-4 shadow-lg"
+    *ngIf="selectedElement"
+>
+    <div class="w-full h-16 flex flex-row">
+        <div class="h-16 w-3/5 flex flex-col justify-center items-start px-4">
+            <ng-container
+                *ngIf="selectedElement.type === 'component'; else navigation"
+            >
+                <div class="font-bold">
+                    COMPONENT {{ selectedElement.payload.comp.position + 1 }}
+                </div>
+                <ng-container [ngSwitch]="selectedElement.payload.comp.type">
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'CRP'"
+                    >
+                        Cards
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'HRP'"
+                    >
+                        Title
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'TPR'"
+                    >
+                        Text Block
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'DIV'"
+                    >
+                        Divider
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'SHP'"
+                    >
+                        Agenda
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'RPR'"
+                    >
+                        Form
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'FPR'"
+                    >
+                        FAQ
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'SHC'"
+                    >
+                        Showcase
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'MDA'"
+                    >
+                        Video
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'BRP'"
+                    >
+                        Image Bar
+                    </p>
+                    <p
+                        class="text-sm text-slate-400 italic"
+                        *ngSwitchCase="'IMG'"
+                    >
+                        Image
+                    </p>
+                </ng-container>
+            </ng-container>
+            <ng-template #navigation>
+                <ng-container
+                    *ngIf="selectedElement.type === 'navigation'; else footer"
+                >
+                    <p class="text-md font-bold">NAVIGATION</p>
+                    <p class="text-sm text-slate-500 italic">Bar</p>
+                </ng-container>
+                <ng-template #footer>
+                    <p class="text-md font-bold">FOOTER</p>
+                    <p class="text-sm text-slate-500 italic">Bar</p>
+                </ng-template>
+            </ng-template>
+        </div>
+        <div class="h-full w-2/5 flex flex-col justify-start items-end p-4">
+            <button
+                class="text-sm font-bold hover:text-blue-500"
+                (click)="close()"
+            >
+                close
+            </button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="selectedElement.type != 'component'">
+        <ng-container
+            *ngIf="selectedElement.type === 'navigation'; else footerEditor"
+        >
+            <div class="flex h-auto w-full flex-col">
+                <div class="flex flex-col gap-1">
+                    <app-nav-editor
+                        [navigation]="selectedElement.payload.nav"
+                        [title]="selectedElement.type"
+                        (update)="updateEvent($event)"
+                    ></app-nav-editor>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #footerEditor>
+            <div class="flex h-auto w-full flex-col">
+                <div class="flex flex-col gap-1">
+                    <app-footer-editor
+                        [navigation]="selectedElement.payload.nav"
+                        [title]="selectedElement.type"
+                        (update)="updateEvent($event)"
+                    ></app-footer-editor>
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+
+    <div
+        class="flex h-auto w-full flex-col"
+        [ngSwitch]="selectedElement.payload.comp.type"
+        *ngIf="selectedElement.type === 'component'"
+    >
+        <div *ngSwitchCase="'TPR'" class="flex flex-col gap-1">
+            <app-text-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-text-prop>
+        </div>
+        <div *ngSwitchCase="'HRP'" class="flex flex-col gap-1">
+            <app-hero-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-hero-prop>
+        </div>
+        <div *ngSwitchCase="'RPR'" class="flex flex-col gap-1">
+            <app-register-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-register-prop>
+        </div>
+        <div *ngSwitchCase="'CRP'" class="flex flex-col gap-1">
+            <app-card-prop
+                [id]="this.selectedIndex"
+                [props]="selectedElement.payload.comp.prop"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-card-prop>
+        </div>
+        <div *ngSwitchCase="'SHP'" class="flex flex-col gap-1">
+            <app-schedule-prop
+                [id]="this.selectedIndex"
+                [props]="selectedElement.payload.comp.prop"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            >
+            </app-schedule-prop>
+        </div>
+        <div *ngSwitchCase="'DIV'" class="flex flex-col gap-1">
+            <app-divider-editor
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            >
+            </app-divider-editor>
+        </div>
+        <div *ngSwitchCase="'FPR'" class="flex flex-col gap-1">
+            <app-faq-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-faq-prop>
+        </div>
+        <div *ngSwitchCase="'SHC'" class="flex flex-col gap-1">
+            <app-showcase-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-showcase-prop>
+        </div>
+        <div *ngSwitchCase="'MDA'" class="flex flex-col gap-1">
+            <app-media-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-media-prop>
+        </div>
+        <div *ngSwitchCase="'BRP'" class="flex flex-col gap-1">
+            <app-bar-editor
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-bar-editor>
+        </div>
+        <div *ngSwitchCase="'IMG'" class="flex flex-col gap-1">
+            <app-image-prop
+                [id]="this.selectedIndex"
+                [code]="selectedElement.payload.comp.prop"
+                (update)="updateEvent($event)"
+            ></app-image-prop>
+        </div>
+    </div>
+</div>

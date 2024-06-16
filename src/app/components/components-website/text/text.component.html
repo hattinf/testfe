@@ -1,0 +1,46 @@
+<section class="bg-gray-100 h-auto md:h-[40rem]">
+    <div class="flex flex-row w-full h-full">
+        <div
+            class="h-full w-0 lg:w-1/2 {{image ? 'bg-white' : toggleColor}} {{
+			toggleFlip?'order-2':'order-1'
+		}}"
+            *ngIf="!toggleSide"
+        >
+            <div
+                class="h-full w-full {{imageTintColor}} bg-opacity-60"
+                *ngIf="image"
+            >
+                <img
+                    src="{{image}}"
+                    class="object-cover h-full w-full"
+                    [ngClass]="getImageDarken(imageDarken)"
+                />
+            </div>
+        </div>
+        <div
+            class="flex flex-col gap-4 h-full w-full lg:w-1/2 p-20 lg:p-8 {{alignText}} {{justifyText}} {{backgroundColor}} {{
+			toggleFlip?'order-1':'order-2'
+		}}
+		{{
+			toggleSide?'lg:w-full':''
+		}}
+
+		"
+        >
+            <div class="flex flex-col gap-4 w-full md:w-1/2">
+                <p
+                    class="{{textSize}} {{textWeight}} {{textStyle}}"
+                    [ngClass]="returnTextColor()"
+                >
+                    {{text}}
+                </p>
+                <p
+                    class="{{subTextSize}} {{subTextWeight}} {{subTextStyle}}"
+                    [ngClass]="returnTextColor()"
+                >
+                    {{subText}}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

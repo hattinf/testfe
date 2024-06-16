@@ -1,0 +1,9 @@
+<section
+    class="{{
+        barColor
+    }} h-auto py-4 flex justify-center items-center gap-12 lg:gap-24"
+>
+    <ng-container *ngFor="let image of images.images">
+        <img src="{{ image.image }}" alt="" class="h-12 lg:h-96" />
+    </ng-container>
+</section>

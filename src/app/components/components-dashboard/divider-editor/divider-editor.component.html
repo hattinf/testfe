@@ -1,0 +1,28 @@
+<form [formGroup]="form" class="flex flex-col gap-2">
+    <div class="border-b-2 border-t-2 py-2 px-4">
+        <p class="text-sm text-slate-500">Divider size</p>
+    </div>
+    <div class="px-4 py-2 flex flex-row gap-2">
+        <span
+            class="w-2/6 text-sm text-slate-500 border-2 p-1 rounded-lg text-center"
+        >
+            {{getSize()}}
+        </span>
+        <div class="w-full p-1 flex justify-center items-center">
+            <input
+                type="range"
+                name=""
+                id=""
+                min="0"
+                max="{{sizeValues.length - 1}}"
+                formControlName="size"
+                class="transparent h-[4px] w-full cursor-pointer appearance-none border-transparent bg-neutral-200"
+            />
+        </div>
+    </div>
+    <app-color
+        [control]="form.controls['color']"
+        [select]="'background'"
+        [label]="'Background color'"
+    ></app-color>
+</form>

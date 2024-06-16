@@ -1,0 +1,74 @@
+<button class="font-bold text-lg" (click)="open()">+</button>
+
+<div
+    class="absolute z-50 top-0 right-0 h-screen w-screen bg-black bg-opacity-45 flex justify-center items-center"
+    *ngIf="toggleOpen"
+>
+    <div class="bg-white h-auto w-96 p-4 rounded-lg">
+        <div class="h-20 w-full flex justify-between items-start">
+            <p class="text-xl font-bold">Create new page</p>
+        </div>
+        <form [formGroup]="page" (ngSubmit)="onSubmit()">
+            <div class="flex flex-col justify-start">
+                <label for="page-title" class="text-sm text-slate-500"
+                    >Page title (ouse only letter)</label
+                >
+                <input
+                    type="text"
+                    name="page-title"
+                    class="w-full mb-4 rounded-lg"
+                    formControlName="title"
+                />
+
+                <ng-container *ngIf="pages.length>0">
+                    <div class="w-full flex flew-row gap-2">
+                        <input
+                            type="checkbox"
+                            name="sub"
+                            formControlName="sub"
+                            class="mb-4 rounded-lg"
+                        />
+                        <label for="subpage" class="text-xs text-slate-500"
+                            >Sub page (tick - yes, no tick - no)</label
+                        >
+                    </div>
+                    <label
+                        for="mainPage"
+                        *ngIf="this.page.controls.sub.value"
+                        class="text-sm text-slate-500"
+                        >Parent page</label
+                    >
+                    <select
+                        name="mainPage"
+                        class="w-full mb-4 rounded-lg"
+                        *ngIf="this.page.controls.sub.value"
+                        [formControl]="subPage"
+                    >
+                        <option *ngFor="let page of pages" value="{{page.id}}">
+                            {{page.title}}
+                        </option>
+                    </select>
+                </ng-container>
+            </div>
+            <div
+                class="flex justify-end items-center rounded-b dark:border-gray-600 pt-4"
+            >
+                <button
+                    data-modal-hide="default-modal"
+                    type="submit"
+                    class="text-white bg-green-400 rounded-md hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                    create
+                </button>
+                <button
+                    data-modal-hide="default-modal"
+                    type="button"
+                    (click)="onCancel()"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium rounded-md text-gray-900 focus:outline-none bg-slate-200 border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                >
+                    cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

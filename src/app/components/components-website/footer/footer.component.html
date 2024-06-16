@@ -1,0 +1,31 @@
+<footer>
+    <div class="flex flex-col">
+        <div
+            class="flex flex-col md:flex-row w-full h-auto lg:h-64 {{fot.backgroundColor}} justify-start items-center gap-4 md:px-96 py-20 lg:py-0"
+        >
+            <div
+                class="h-full w-auto flex flex-col justify-start items-start pt-10"
+                *ngFor="let col of links"
+            >
+                <div
+                    class="h-auto w-auto flex flex-col pl-2 border-l-2 {{fot.linkColor}}"
+                >
+                    <ng-container *ngFor="let link of col">
+                        <a
+                            href="{{createLink(link.url)}}"
+                            class="hover:underline me-4 md:me-6 uppercase"
+                            >{{link.name}}</a
+                        >
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div
+            class="flex flex-row w-full {{fot.backgroundColor}} items-center justify-center"
+        >
+            <p class="{{fot.linkColor}} font-noaLight text-sm mb-10">
+                {{fot.bottomText}}
+            </p>
+        </div>
+    </div>
+</footer>

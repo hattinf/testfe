@@ -1,0 +1,58 @@
+<form [formGroup]="bar" class="flex flex-col gap-2">
+    <div class="border-b-2 border-t-2 py-2 px-4">
+        <p class="text-sm text-slate-500">Text Position</p>
+    </div>
+    <app-color
+        [control]="bar.controls['barColor']"
+        [select]="'background'"
+        [label]="'Background'"
+    ></app-color>
+    <div
+        class="border-b-2 border-t-2 py-2 px-4 flex flex-row justify-between items-center"
+    >
+        <p class="text-sm text-slate-500">Images (max. 4)</p>
+    </div>
+    <ng-container *ngFor="let image of images; index as i">
+        <div class="flex flex-col gap-2 px-4">
+            <div class="h-20 w-full relative rounded-lg overflow-hidden">
+                <div
+                    class="h-20 w-full absolute z-10 rounded-lg text-slate-500 border-2 hover:border-red-500 flex justify-center hover:bg-gray-600 hover:bg-opacity-35 items-center hover:text-red-500 cursor-pointer"
+                >
+                    <app-delete-confirm
+                        (delete)="handleRemove(i)"
+                    ></app-delete-confirm>
+                </div>
+                <div
+                    class="h-20 w-full absolute z-0 overflow-hidden rounded-lg hover:bg-red-500"
+                >
+                    <img
+                        src="{{image.image}}"
+                        alt="image"
+                        class="h-20 w-full object-cover opacity-45"
+                    />
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</form>
+
+<form
+    [formGroup]="upload"
+    class="flex flex-col gap-2 px-4 mt-2"
+    *ngIf="images.length < 4"
+>
+    <input
+        type="file"
+        accept="image/*"
+        class="w-full"
+        (change)="onFileChange($event, this.upload.controls['image'])"
+    />
+    <button
+        type="button"
+        class="w-full bg-slate-500 text-white py-2 rounded-lg"
+        (click)="handleUpload()"
+        *ngIf="upload.controls['image'].value"
+    >
+        Upload
+    </button>
+</form>

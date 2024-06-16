@@ -1,0 +1,19 @@
+<div class="px-4 py-2 flex flex-row gap-2">
+    <span
+        class="w-1/6 text-sm text-slate-500 border-2 p-1 rounded-lg text-center"
+    >
+        {{control.value.replace('brightness-', '')}}
+    </span>
+    <div class="w-full p-1 flex justify-center items-center">
+        <input
+            type="range"
+            name=""
+            id=""
+            min="0"
+            max="{{values.length - 1}}"
+            [value]="setValue(control.value)"
+            (input)="onInputChange($event)"
+            class="transparent h-[4px] w-full cursor-pointer appearance-none border-transparent bg-neutral-200"
+        />
+    </div>
+</div>

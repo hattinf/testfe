@@ -1,0 +1,42 @@
+<section class="p-5 {{backgroundColor}}">
+    <div class="flex flex-col w-full justify-center items-center">
+        <div class="w-3/4 lg:w-2/3 h-auto">
+            <ng-container *ngFor="let faq of data.faqs; index as i">
+                <div
+                    class="w-full h-16 {{borderColor}} flex justify-between items-center px-4 pointer-events-auto cursor-pointer"
+                    [ngClass]="selected != i ? 'border-b-2' : 'border-none'"
+                    (click)="toggleAccordion(i)"
+                >
+                    <p class="text-base lg:text-xl {{color}}">
+                        {{faq.question}}
+                    </p>
+
+                    <svg
+                        class="w-6 h-6 text-gray-800 dark:text-white duration-200"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        [ngClass]="selected === i ? 'transform rotate-180' : ''"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m5 15 7-7 7 7"
+                        />
+                    </svg>
+                </div>
+                <div
+                    class="w-full h-auto border-b-2 flex px-4 p-4 {{textColor}} {{borderColor}}"
+                    *ngIf="selected === i"
+                >
+                    <p class="text-xs lg:text-base">{{faq.answer}}</p>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</section>

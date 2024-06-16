@@ -1,0 +1,54 @@
+<div class="h-full w-full flex flex-row px-4 gap-2 justify-between">
+    <div class="h-full w-auto flex justify-center items-center">
+        <button
+            class="flex h-full w-full items-center justify-center"
+            cdkDragHandle
+        >
+            <svg
+                class="w-6 h-6 text-gray-800 dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+            </svg>
+        </button>
+    </div>
+    <button class="h-full w-28 flex justify-center items-center flex-col">
+        <p class="font-bold text-base">
+            Component {{ this.component.position + 1 }}
+        </p>
+        <ng-container [ngSwitch]="this.component.type">
+            <p class="text-sm italic text-slate-500">
+                <span
+                    class="text-sm italic text-slate-500"
+                    *ngSwitchCase="'CRP'"
+                >
+                    Cards
+                </span>
+                <span *ngSwitchCase="'HRP'"> Title </span>
+                <span *ngSwitchCase="'TPR'"> Text Block </span>
+                <span *ngSwitchCase="'DIV'"> Divider </span>
+                <span *ngSwitchCase="'SHP'"> Agenda </span>
+                <span *ngSwitchCase="'RPR'"> Form </span>
+                <span *ngSwitchCase="'FPR'"> FAQ </span>
+                <span *ngSwitchCase="'SHC'"> Showcase </span>
+                <span *ngSwitchCase="'MDA'"> Video </span>
+                <span *ngSwitchCase="'BRP'"> Image Bar </span>
+                <span *ngSwitchCase="'IMG'"> Image </span>
+            </p>
+        </ng-container>
+    </button>
+    <div class="h-full w-14 flex justify-end items-center">
+        <app-delete-confirm (delete)="removeComponent(i)"></app-delete-confirm>
+    </div>
+</div>

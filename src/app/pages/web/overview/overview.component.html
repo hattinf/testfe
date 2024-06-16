@@ -1,0 +1,71 @@
+<div class="h-auto w-screen flex flex-col gap-8 p-6 md md:p-10 items-center">
+    <div class="h-40 md:h-60 w-full md:w-2/3 flex flex-row">
+        <div
+            class="h-full w-full md:w-1/2 flex flex-col justify-end items-start"
+        >
+            <p
+                class="text-6xl md:text-8xl uppercase font-bold drop-shadow-lg text-blue-500"
+            >
+                Event Websites
+            </p>
+            <p class="text-base md:text-lg italic font-thin">
+                Browse various events that are currently happening or will
+                happen
+            </p>
+        </div>
+    </div>
+    <div
+        class="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+        <div
+            class="bg-white rounded-lg shadow-md overflow-hidden h-60 flex flex-row border-[3px] border-blue-500"
+            *ngIf="websiteData.length === 0"
+        >
+            <div class="h-full w-full flex justify-center items-center">
+                <p class="text-2xl text-black">No events found.</p>
+            </div>
+        </div>
+        <div
+            class="bg-white rounded-lg shadow-md overflow-hidden h-60 flex flex-row border-[3px] border-blue-500"
+            *ngFor="let event of websiteData"
+        >
+            <div class="h-full w-full bg-white flex flex-col p-4 gap-2">
+                <div
+                    class="w-full h-15 flex flex-row gap-2 items-center justify-start"
+                >
+                    <svg
+                        class="w-6 h-6 text-black"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    <p class="w-full text-xs md:text-base text-black uppercase">
+                        {{event.name}}
+                    </p>
+                </div>
+                <div class="h-full w-2/3 flex flex-col justify-between">
+                    <p class="text-light text-sm text-slate-400">
+                        {{event.description}}
+                    </p>
+                    <a
+                        href="/web/{{event.id}}"
+                        class="underline text-blue-500 text-lg"
+                        >to event</a
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full md:w-2/3 flex justify-center items-center">
+        <p class="font-thin">Copyright © 2024</p>
+    </div>
+</div>
